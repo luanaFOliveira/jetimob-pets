@@ -1,0 +1,60 @@
+.container-info-pets {
+    background-color: #4a834e; 
+    border: 1px solid #000; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 2rem;
+    width: 80%;
+    margin: 0 auto; 
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3rem;
+}
+/*
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 80%;
+    */
+.carrousel-images {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 20%;
+}
+
+.carrousel-images img {
+    max-width: 100%; 
+}
+
+.pet-info-text {
+    flex: 1; 
+    margin-right: 2rem;
+}
+
+.pet-info-circles{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+}
+
+.container-cards-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.custom-button{
+    text-decoration: none;
+    color: white;
+}

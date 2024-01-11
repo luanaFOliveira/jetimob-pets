@@ -1,0 +1,12 @@
+
+.link-card{
+    text-decoration: none; 
+}
+
+.card-title{
+    font-size: 1.5rem;
+}
+
+.card-content{
+    padding: 1rem;
+}

@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import PetCard from '../Components/PetCard';
+import '../Styles/ListPets.css';
+import NavBar from '../Components/NavBar';
 
 function ListPets() {
   const [pets, setPets] = useState([]);
@@ -30,17 +31,18 @@ function ListPets() {
     // eslint-disable-next-line
   }, []);
 
-  return (
-    <div>
-        <div className="row bg-transparent">
-          {pets.map((card, index) => (
-            <PetCard key={index} nome={card.nome} id={card.id}/>
-          ))}
-        </div>
+  return (<>
+    <NavBar/>
+    <div className="row bg-transparent container-pet-list">
+      {Array.isArray(pets) && pets.length > 0 ? (
+          pets.map((pet, index) => (
+            <PetCard key={index} nome={pet.nome} id={pet.id} />
+          ))
+        ) : (
+          <p>Nenhum animal encontrado.</p>
+      )}
     </div>
-  );
+    </>);
 }
-
-
 
 export default ListPets;

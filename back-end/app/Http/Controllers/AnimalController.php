@@ -37,12 +37,18 @@ class AnimalController extends Controller
     {
         $animais = Animal::all();
 
-        return response()->json($animais);
+        return $animais;
     }
 
-    public function show(Animal $animal)
+    public function show($id)
     {
-        return response()->json($animal);
+        $animal = Animal::find($id);
+
+        if (!$animal) {
+            return response()->json(['message' => 'Animal não encontrado.'], 404);
+        }
+
+        return response()->json($animal, 200);
     }
 
     public function update(Request $request, Animal $animal)
