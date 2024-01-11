@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
-import '../Styles/PetInfo.css';
-import InfoItem from '../Components/InfoItem';
-import CarousselImages from '../Components/CarousselImages';
+import NavBar from '../../Components/NavBar';
+import '../../Styles/Pet/PetInfo.css';
+import InfoItem from '../../Components/InfoItem';
+import CarousselImages from '../../Components/CarousselImages';
 import { Button} from 'react-bootstrap';
 
 

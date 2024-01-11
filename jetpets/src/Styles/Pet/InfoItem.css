@@ -4,7 +4,7 @@
     font-size: 25px; 
 }
 
-.card {
+.card-info {
     width: 100%; 
     height: auto;
     border: 1px solid #ddd;
@@ -13,6 +13,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 1rem;
     margin-bottom: 1rem;
+    background-color: #aad576;
 }
   
 p {
@@ -20,7 +21,8 @@ p {
     color: #555;
 }
 
-.card-deck{
+.card-text{
+    color: black;
 }
   
 

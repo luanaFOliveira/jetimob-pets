@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
-import '../Styles/NewPet.css';
-import PetForm from '../Components/PetForm';
+import NavBar from '../../Components/NavBar';
+import PetForm from '../../Components/PetForm';
 import { useNavigate } from 'react-router-dom';
 
 function EditPet() {

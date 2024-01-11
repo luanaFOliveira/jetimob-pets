@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
-import PetCard from '../Components/PetCard';
-import '../Styles/ListPets.css';
-import NavBar from '../Components/NavBar';
+import PetCard from '../../Components/PetCard';
+import '../../Styles/Pet/ListPets.css';
+import NavBar from '../../Components/NavBar';
 
 function ListPets() {
   const [pets, setPets] = useState([]);

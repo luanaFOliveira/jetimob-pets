@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Styles/InfoItem.css';
 import { Form, Button, Container, FormGroup, FormControl, Dropdown,DropdownButton } from 'react-bootstrap';
 
 function PetForm({handleChange,handleSubmit,initialFormState}){
@@ -8,6 +7,15 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
 
     const handleDropdownChange = (selectedOption) => {
         setFormData({ ...formData, selectedOption });
+    };
+    const [selectedFiles, setSelectedFiles] = React.useState([]);
+
+    const handleFileChange = (e) => {
+        setSelectedFiles([...e.target.files]);
+    };
+
+    const handleUpload = () => {
+        console.log('Arquivos selecionados:', selectedFiles);
     };
 
     return(<>
@@ -127,13 +135,21 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                             </Dropdown>
                         </FormGroup>
                     </div>
+                    
                 </div>
-                
+                <Form.Group controlId="formImages" className="mb-3">
+                    <Form.Label>Adicione fotos</Form.Label>
+                    <Form.Control
+                        type="file"
+                        multiple
+                        onChange={handleFileChange}
+                    />
+                </Form.Group>
                 <FormGroup controlId="formBasicDescricao">
                     <Form.Label>Descricao</Form.Label>
                     <FormControl as="textarea" placeholder={initialFormState.descricao ? initialFormState.descricao : 'Informe uma descriçao/historico do pet'} rows={4} />
                 </FormGroup>
-
+                
                 <Button variant="dark" type="submit">Enviar</Button>
             </Form>
         </Container>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import "../Styles/PetCard.css";
+import "../Styles/Pet/PetCard.css";
 
 function PetCard({nome,id}){
     

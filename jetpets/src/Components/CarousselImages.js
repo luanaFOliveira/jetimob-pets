@@ -1,5 +1,4 @@
 import React from 'react';
-import '../Styles/InfoItem.css';
 import { Carousel } from 'react-bootstrap';
 
 

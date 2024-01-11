@@ -1,10 +1,15 @@
 
+.card{
+    background-color: #538d22;
+
+}
 .link-card{
     text-decoration: none; 
 }
 
 .card-title{
     font-size: 1.5rem;
+    color: white;
 }
 
 .card-content{

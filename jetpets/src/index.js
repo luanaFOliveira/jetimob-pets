@@ -6,10 +6,12 @@ import reportWebVitals from './reportWebVitals';
 import { StrictMode } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './Home';
-import PetInfo from './Views/PetInfo';
-import PetList from './Views/ListPets';
-import NewPet from './Views/NewPet';
-import EditPet from './Views/EditPet';
+import PetInfo from './Views/Pet/PetInfo';
+import PetList from './Views/Pet/ListPets';
+import NewPet from './Views/Pet/NewPet';
+import EditPet from './Views/Pet/EditPet';
+import NewUser from './Views/User/NewUser';
+import EditUser from './Views/User/EditUser';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path:"/edit_pet/:id",
     element:<EditPet/>,
+  },
+  {
+    path:"/new_user",
+    element:<NewUser/>,
+  },
+  {
+    path:"/edit_user/:id",
+    element:<EditUser/>,
   },
   
  
