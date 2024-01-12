@@ -2,85 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAnimalRequest;
+use App\Http\Resources\AnimalDetailedResource;
+use App\Http\Resources\AnimalResource;
 use App\Models\Animal;
-use Illuminate\Http\Request;
+use App\Services\AnimalService;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 
 class AnimalController extends Controller
 {
-    public function store(Request $request)
+
+    public function __construct(
+        protected readonly AnimalService $animalService
+    )
     {
-        $request->validate([
-            'nome' => 'required|string',
-            'especie' => 'required|string',
-            'sexo' => 'required|string',
-            'porte' => 'required|string',
-            'idade' => 'required|string',
-            'cuidados_veterinarios' => 'required|string',
-            'temperamento' => 'required|string',
-            'vive_bem_em' => 'required|string',
-            'sociavel_com' => 'required|string',
-            'descricao' => 'required|string',
-            'imagem' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $animal = Animal::create($request->except('imagens'));
-
-        if ($request->hasFile('imagem')) {
-            $imagem = $request->file('imagem')->get();
-            $animal->update(['imagem' => $imagem]);
-        }
-
-        return response()->json($animal, 201);
     }
 
-    public function index()
+    public function index():ResourceCollection
     {
-        $animais = Animal::all();
-
-        return $animais;
+        return AnimalResource::collection(
+            Animal::orderBy('id')->paginate()
+        );
     }
 
-    public function show($id)
+    public function show(Animal $animal):JsonResource
     {
-        $animal = Animal::find($id);
-
-        if (!$animal) {
-            return response()->json(['message' => 'Animal não encontrado.'], 404);
-        }
-
-        return response()->json($animal, 200);
+        return AnimalDetailedResource::make($animal);
     }
 
-    public function update(Request $request, Animal $animal)
+    public function store(StoreAnimalRequest $request):JsonResource
     {
-        $request->validate([
-            'nome' => 'required|string',
-            'especie' => 'required|string',
-            'sexo' => 'required|string',
-            'porte' => 'required|string',
-            'idade' => 'required|string',
-            'cuidados_veterinarios' => 'required|string',
-            'temperamento' => 'required|string',
-            'vive_bem_em' => 'required|string',
-            'sociavel_com' => 'required|string',
-            'descricao' => 'required|string',
-            'imagem' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $animal->update($request->except('imagens'));
-
-        if ($request->hasFile('imagem')) {
-            $imagem = $request->file('imagem')->get();
-            $animal->update(['imagem' => $imagem]);
-        }
-
-        return response()->json($animal, 200);
+        return AnimalDetailedResource::make(
+            $this->animalService->upsertAnimal($request)
+        );
     }
 
-    public function destroy(Animal $animal)
+    
+    public function update(StoreAnimalRequest $request, Animal $animal):JsonResource
     {
-        $animal->delete();
-        return response()->json(null, 204);
+        return AnimalDetailedResource::make(
+            $this->animalService->upsertAnimal($request,$animal)
+        );
+    }
+
+    public function destroy(Animal $animal):Response
+    {
+        $this->animalService->deleteAnimal($animal);
+        return response()->noContent();
     }
 
 }
