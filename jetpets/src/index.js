@@ -16,7 +16,7 @@ import EditUser from './Views/User/EditUser';
 const router = createBrowserRouter([
   {
       path:"/",
-      element:<Home/>,
+      element:<PetList/>,
   },
   {
     path:"/pets",
