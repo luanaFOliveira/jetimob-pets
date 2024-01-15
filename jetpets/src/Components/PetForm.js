@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Button, Container, FormGroup, FormControl, Dropdown,DropdownButton } from 'react-bootstrap';
+import SubmitButton from './SubmitButton';
 
 function PetForm({handleChange,handleSubmit,initialFormState}){
 
@@ -149,8 +150,7 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                     <Form.Label>Descricao</Form.Label>
                     <FormControl as="textarea" placeholder={initialFormState.descricao ? initialFormState.descricao : 'Informe uma descriçao/historico do pet'} rows={4} />
                 </FormGroup>
-                
-                <Button variant="dark" type="submit">Enviar</Button>
+                <SubmitButton texto="Enviar" path='/'/>                
             </Form>
         </Container>
     </>);

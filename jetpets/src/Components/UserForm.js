@@ -1,5 +1,7 @@
 import React from 'react';
 import { Form, Button, Container, FormGroup, FormControl, Dropdown,DropdownButton } from 'react-bootstrap';
+import '../Styles/User/UserForm.css';
+import SubmitButton from './SubmitButton';
 
 function UserForm({handleChange,handleSubmit,initialFormState}){
 
@@ -39,7 +41,7 @@ function UserForm({handleChange,handleSubmit,initialFormState}){
                         placeholder={initialFormState.senha ? initialFormState.senha : 'Informe a sua senha'}
                     />
                 </FormGroup>
-                <Button variant="dark" type="submit">Enviar</Button>
+                <SubmitButton texto="Enviar" path='/'/>
             </Form>
         </Container>
     

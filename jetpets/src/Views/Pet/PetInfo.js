@@ -5,6 +5,7 @@ import '../../Styles/Pet/PetInfo.css';
 import InfoItem from '../../Components/InfoItem';
 import CarousselImages from '../../Components/CarousselImages';
 import { Button} from 'react-bootstrap';
+import SubmitButton from '../../Components/SubmitButton';
 
 
 const onDelete = async (id) => {
@@ -88,7 +89,8 @@ function PetInfo() {
             <InfoItem campo1="Vive bem em" valor1={pet.vive_bem_em} campo2="Sociavel com" valor2={pet.sociavel_com} />
           </div>
           <div className='footer-pet-page'>
-            <Button variant="dark" className="custom-button"><Link to={`/edit_pet/${id}`} >Editar</Link></Button>
+            <SubmitButton texto="Editar" path={`/edit_pet/${id}`} />
+            <SubmitButton texto="Excluir" path={`/`} onClick={() => onDelete(id)} />
             <Button variant="dark" className="custom-button"><Link to={`/`} onClick={() => onDelete(id)} >Deletar</Link></Button>
           </div> 
         </div>

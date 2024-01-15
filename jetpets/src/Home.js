@@ -1,14 +1,15 @@
 import React,{useState,useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ListPets from './Views/Pet/ListPets';
+import './Styles/Home.css';
 
 function Home() {
   
-  return (
-    <div>
-        <ListPets/>
+  return (<>
+    <h1 className='title-text'>PETLAR</h1>
+    <div className='login-container'>
+        
     </div>
-  );
+  </>);
 }
 
 export default Home;
