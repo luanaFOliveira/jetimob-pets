@@ -38,13 +38,7 @@
     margin-right: 2rem;
 }
 
-.pet-info-circles{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 20%;
-}
+
 
 .container-cards-info{
     display: flex;
@@ -61,4 +55,12 @@
 
 .h1{
     color: white;
+}
+
+.footer-pet-page{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
 }

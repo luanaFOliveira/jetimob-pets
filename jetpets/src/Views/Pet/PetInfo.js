@@ -7,7 +7,8 @@ import CarousselImages from '../../Components/CarousselImages';
 import { Button} from 'react-bootstrap';
 import SubmitButton from '../../Components/SubmitButton';
 
-
+//styled components
+//sass ou scss
 const onDelete = async (id) => {
   if (!window.confirm("Deseja realmente excluir este pet?")) return;
 
@@ -80,18 +81,22 @@ function PetInfo() {
         <div className='container-info-pets'>
           <h1>{pet.nome}</h1>
           <div className='carrousel-images'>
-            <CarousselImages images={images} />
+            <CarousselImages images={pet.images} />
           </div>
           <div className='container-cards-info'>
-            <InfoItem campo1="Idade" valor1={pet.idade} campo2="Especie" valor2={pet.especie} />
-            <InfoItem campo1="Sexo" valor1={pet.sexo} campo2="Porte" valor2={pet.porte} />
-            <InfoItem campo1="Cuidados Veterinarios" valor1={pet.cuidados_veterinarios} campo2="Temperamento" valor2={pet.temperamento} />
-            <InfoItem campo1="Vive bem em" valor1={pet.vive_bem_em} campo2="Sociavel com" valor2={pet.sociavel_com} />
+            <InfoItem pet={pet} />            
+          </div>
+          <div>
+            <div class="card-info">
+              <h7 class="card-title">Descricao</h7>
+              <div class="card-body">
+                <h5 class="card-text">{pet.descricao}</h5>
+              </div>
+            </div>
           </div>
           <div className='footer-pet-page'>
             <SubmitButton texto="Editar" path={`/edit_pet/${id}`} />
             <SubmitButton texto="Excluir" path={`/`} onClick={() => onDelete(id)} />
-            <Button variant="dark" className="custom-button"><Link to={`/`} onClick={() => onDelete(id)} >Deletar</Link></Button>
           </div> 
         </div>
       </div>
@@ -100,6 +105,10 @@ function PetInfo() {
 }
 
 /*
+<InfoItem campo1="Cuidados Veterinarios" valor1={pet.cuidados_veterinarios} campo2="Temperamento" valor2={pet.temperamento} />
+            <InfoItem campo1="Vive bem em" valor1={pet.vive_bem_em} campo2="Sociavel com" valor2={pet.sociavel_com} />
+            //            <Button variant="dark" className="custom-button"><Link to={`/`} onClick={() => onDelete(id)} >Deletar</Link></Button>
+
 <div className='pet-info-circles'>
               <InfoItem texto={pet.especie} />
               <InfoItem texto={pet.sexo} />

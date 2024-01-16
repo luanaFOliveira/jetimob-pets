@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import "../Styles/Pet/PetCard.css";
 
 function PetCard({nome,id}){
-    
+    //colocar o display grid
+    //
     return (
         <div className="col-2 card-content">
             <Link to={`/pet/${id}`} className='link-card'>

@@ -10,7 +10,7 @@ function NavBar() {
   return (
     <nav className="navbar navbar-expand-lg custom-navbar">
       <div className="container">
-        <Link to={`/`} className="navbar-brand"><FontAwesomeIcon icon={faPaw} style={{fontSize:'24px'}} />PetLar</Link>
+        <Link to={`/pets`} className="navbar-brand"><FontAwesomeIcon icon={faPaw} style={{fontSize:'24px'}} />PetLar</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
