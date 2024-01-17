@@ -5,8 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #245501 !important;
+  background-image: url('../public/background.png'); /* Substitua 'background.png' pelo caminho correto para a sua imagem */
+  background-size: cover; /* Garante que a imagem cubra toda a área do corpo */
+  background-repeat: no-repeat; /* Evita repetir a imagem */
+  background-attachment: fixed; 
 }
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

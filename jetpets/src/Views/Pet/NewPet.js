@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import NavBar from '../../Components/NavBar';
 import '../../Styles/Pet/NewPet.css';
 import PetForm from '../../Components/PetForm';
-import { useNavigate } from 'react-router-dom';
 
 function NewPet() {
 
@@ -21,72 +20,11 @@ function NewPet() {
         images: [],
     }
 
-    const [pet, setPet] = useState(initialFormState);
-    const navigate = useNavigate();
-    
-    const handleChange = (event) => {
-        const { name = '', value, checked } = event.target || {};
-    
-        if (!name) {
-            return; 
-        }
-        if (name === 'images') {
-            handleFileChange(event);
-        } else if (name.endsWith('[]')) {
-            //pegar o tipo - tipo checkbox
-            setPet((prevPet) => {
-                const newArray = Array.isArray(prevPet[name]) ? [...prevPet[name]] : [];
-                return {
-                    ...prevPet,
-                    [name]: checked ? [...newArray, value] : newArray.filter((v) => v !== value),
-                };
-            });
-        } else {
-            setPet({ ...pet, [name]: value });
-        }
-    };
-
-    const handleFileChange = (e) => {
-        const files = [...e.target.files];
-      
-        pet.images = pet.images.filter((image) => !files.includes(image));
-      
-        pet.images.push(...files);
-      
-        setPet({ ...pet });
-    };
-      
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        
-        try {
-          const response = await fetch(`http://127.0.0.1:8000/api/pets`, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(pet),
-          });
-      
-          if (!response.ok) {
-            throw new Error('API request failed');
-          }
-      
-          setPet(initialFormState);
-          navigate('/');
-        } catch (error) {
-          console.error('Error submitting pet data:', error);
-        }
-        
-    };
-
     return(<>
         <NavBar />
         <div className='container-new-pet'>
             <h1>Cadastre seu pet</h1>
-            <PetForm initialFormState={initialFormState} handleChange={handleChange} handleSubmit={handleSubmit}/>
+            <PetForm initialFormState={initialFormState} metodo="POST"/>
         </div>
     </>);
 }

@@ -42,35 +42,11 @@ function EditPet() {
         descricao: pet_temp.descricao,
     }
 
-    const [pet, setPet] = useState(initialFormState);
-    const navigate = useNavigate();
-
-    const handleChange = (event) => {
-        const { name, value } = event.target
-        setPet({ ...pet, [name]: value })
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-       
-        await fetch(`http://127.0.0.1:8000/api/pets/${id}`, {
-            method:'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(pet)
-        });
-        setPet(initialFormState);
-        navigate('/');
-        
-    }
-
     return(<>
         <NavBar />
         <div className='container-new-pet'>
             <h1>Editar Pet</h1>
-            <PetForm initialFormState={initialFormState} handleChange={handleChange} handleSubmit={handleSubmit}/>
+            <PetForm initialFormState={initialFormState} metodo="PUT"/>
         </div>
     </>);
 }

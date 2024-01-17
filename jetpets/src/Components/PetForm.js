@@ -1,13 +1,109 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, FormGroup, FormControl, Dropdown,DropdownButton,FormControlGroup,Radio,RadioGroup } from 'react-bootstrap';
 import SubmitButton from './SubmitButton';
 import '../Styles/Pet/PetForm.css';
+import { useNavigate } from 'react-router-dom';
 
-function PetForm({handleChange,handleSubmit,initialFormState}){
-
-    const [formData, setFormData] = React.useState(initialFormState);
+function PetForm({initialFormState,metodo}){
 
     
+    const [nome, setNome] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [especie, setEspecie] = useState('');
+    const [sexo, setSexo] = useState('');
+    const [porte, setPorte] = useState('');
+    const [idade, setIdade] = useState('');
+    const [cuidados_veterinarios, setSelectedCuidados] = useState([]);
+    const [temperamentos, setTemperamentos] = useState([]);
+    const [vive_bem_em, setViveBemEm] = useState([]);
+    const [sociavel_com, setSociavelCom] = useState([]);
+    const [images, setImages] = useState([]);
+
+    const formData = {
+        nome,
+        descricao,
+        especie,
+        sexo,
+        porte,
+        idade,
+        cuidados_veterinarios,
+        temperamentos,
+        vive_bem_em,
+        sociavel_com,
+        images,
+    };
+    
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
+        try {
+          const response = await fetch(`http://127.0.0.1:8000/api/pets`, {
+            method: metodo,
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          });
+      
+          if (!response.ok) {
+            throw new Error('API request failed');
+          }
+      
+          navigate('/');
+        } catch (error) {
+          console.error('Error submitting pet data:', error);
+        }
+        
+    };
+
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setImages((prevImages) => {
+            const uniqueFiles = files.filter((file) =>
+                !prevImages.some((prevImage) => prevImage.name === file.name)
+            );
+            return [...prevImages, ...uniqueFiles];
+        });
+    };
+
+    const handleChangeCheckBox = (event,checkboxId) => {
+        const { value, checked } = event.target;
+
+        if (checkboxId === 'cuidados') {
+            const updatedOptions = checked
+              ? [...cuidados_veterinarios, value]
+              : cuidados_veterinarios.filter((option) => option !== value);
+      
+              setSelectedCuidados(updatedOptions);
+          } else if (checkboxId === 'temperamentos') {
+            const updatedOptions = checked
+              ? [...temperamentos, value]
+              : temperamentos.filter((option) => option !== value);
+      
+              setTemperamentos(updatedOptions);
+          }
+          else if (checkboxId === 'vive_bem_em') {
+            const updatedOptions = checked
+              ? [...vive_bem_em, value]
+              : vive_bem_em.filter((option) => option !== value);
+      
+              setViveBemEm(updatedOptions);
+          }
+          else if (checkboxId === 'sociavel_com') {
+            const updatedOptions = checked
+              ? [...sociavel_com, value]
+              : sociavel_com.filter((option) => option !== value);
+      
+              setSociavelCom(updatedOptions);
+          }
+    };
+
+
+
     return(<>
         <Container>
             <Form onSubmit={(e) => handleSubmit(e, formData)}>
@@ -17,16 +113,14 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                             <Form.Label>Nome</Form.Label>
                             <Form.Control
                                 type="text"
-                                name="nome"
-                                value={formData.nome}
-                                onChange={handleChange}
+                                onChange={setNome}
                                 placeholder={initialFormState.nome ? initialFormState.nome : 'Informe o nome do pet'}
                             />
                         </FormGroup>
                         <FormGroup controlId="formBasicEspecie">
                             <Form.Label>Especie</Form.Label>
-                            <Dropdown onSelect={(eventKey) => handleChange({ name: 'especie', value: eventKey })}>
-                                <DropdownButton title={initialFormState.especie ? initialFormState.especie : 'Selecione'} id="dropdown-basic" variant="dark">
+                            <Dropdown onSelect={setEspecie}>
+                                <DropdownButton title={especie ? especie : (  initialFormState.especie ? initialFormState.especie : 'Selecione')} id="dropdown-basic" variant="dark">
                                     <Dropdown.Item eventKey="Canino">Canino</Dropdown.Item>
                                     <Dropdown.Item eventKey="Felino">Felino</Dropdown.Item>
                                 </DropdownButton>
@@ -34,8 +128,8 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                         </FormGroup>
                         <FormGroup controlId="formBasicSexo">
                             <Form.Label>Sexo</Form.Label>
-                            <Dropdown onSelect={(eventKey) => handleChange({ name: 'sexo', value: eventKey })}>
-                                <DropdownButton title={initialFormState.sexo ? initialFormState.sexo : 'Selecione'} id="dropdown-basic" variant="dark">
+                            <Dropdown onSelect={setSexo}>
+                                <DropdownButton title={sexo ? sexo : (  initialFormState.sexo ? initialFormState.sexo : 'Selecione')} id="dropdown-basic" variant="dark">
                                     <Dropdown.Item eventKey="Macho">Macho</Dropdown.Item>
                                     <Dropdown.Item eventKey="Fêmea">Fêmea</Dropdown.Item>
                                 </DropdownButton>
@@ -43,8 +137,8 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                         </FormGroup>
                         <FormGroup controlId="formBasicPorte">
                             <Form.Label>Porte</Form.Label>
-                            <Dropdown onSelect={(eventKey) => handleChange({ name: 'porte', value: eventKey })}>
-                                <DropdownButton title={initialFormState.porte ? initialFormState.porte : 'Selecione'} id="dropdown-basic" variant="dark">
+                            <Dropdown onSelect={setPorte}>
+                                <DropdownButton title={porte ? porte : (  initialFormState.porte ? initialFormState.porte : 'Selecione')} id="dropdown-basic" variant="dark">
                                     <Dropdown.Item eventKey="Pequeno">Pequeno</Dropdown.Item>
                                     <Dropdown.Item eventKey="Medio">Medio</Dropdown.Item>
                                     <Dropdown.Item eventKey="Grande">Grande</Dropdown.Item>
@@ -53,8 +147,8 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                         </FormGroup>
                         <FormGroup controlId="formBasicIdade">
                             <Form.Label>Idade</Form.Label>
-                            <Dropdown onSelect={(eventKey) => handleChange({ name: 'idade', value: eventKey })}>
-                                <DropdownButton title={initialFormState.idade ? initialFormState.idade : 'Selecione'} id="dropdown-basic" variant="dark">
+                            <Dropdown onSelect={setIdade}>
+                                <DropdownButton title={idade ? idade : (  initialFormState.idade ? initialFormState.idade : 'Selecione')} id="dropdown-basic" variant="dark">
                                     <Dropdown.Item eventKey="Filhote">Filhote</Dropdown.Item>
                                     <Dropdown.Item eventKey="Adulto">Adulto</Dropdown.Item>
                                     <Dropdown.Item eventKey="Idoso">Idoso</Dropdown.Item>
@@ -69,11 +163,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCastrado"
                                     value="Castrado"
-                                    name="cuidados_veterinarios[]"
-                                    checked={formData.cuidados_veterinarios?.includes('Castrado')}
-                                    onChange={handleChange}
+                                    checked={cuidados_veterinarios.includes("Castrado")}
+                                    onChange={(e) => handleChangeCheckBox(e, 'cuidados')}
                                 />
                                 <label class="form-check-label" for="boxCastrado">Castrado</label>
                             </div>
@@ -81,11 +173,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxVacinado"
                                     value="Vacinado"
-                                    name="cuidados_veterinarios[]"
-                                    checked={formData.cuidados_veterinarios?.includes('Vacinado')}
-                                    onChange={handleChange}
+                                    checked={cuidados_veterinarios.includes('Vacinado')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'cuidados')}
                                 />
                                 <label class="form-check-label" for="boxVacinado">Vacinado</label>
                             </div>
@@ -93,11 +183,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxVermifugado"
                                     value="Vermifugado"
-                                    name="cuidados_veterinarios[]"
-                                    checked={formData.cuidados_veterinarios?.includes('Vermifugado')}
-                                    onChange={handleChange}
+                                    checked={cuidados_veterinarios.includes('Vermifugado')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'cuidados')}
                                 />
                                 <label class="form-check-label" for="boxVermifugado">Vermifugado</label>
                             </div>
@@ -105,11 +193,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCuidadosEspeciais"
-                                    value="CuidadosEspeciais"
-                                    name="cuidados_veterinarios[]"
-                                    checked={formData.cuidados_veterinarios?.includes('CuidadosEspeciais')}
-                                    onChange={handleChange}
+                                    value="Cuidados Especiais"
+                                    checked={cuidados_veterinarios.includes('Cuidados Especiais')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'cuidados')}
                                 />
                                 <label class="form-check-label" for="boxCuidadosEspeciais">Precisa de cuidados especiais</label>
                             </div>
@@ -120,11 +206,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxAgressivo"
                                     value="Agressivo"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Agressivo')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Agressivo')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxAgressivo">Agressivo</label>
                             </div>
@@ -132,11 +216,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxArisco"
                                     value="Arisco"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Arisco')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Arisco')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxArisco">Arisco</label>
                             </div>
@@ -144,11 +226,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxBrincalhao"
                                     value="Brincalhao"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Brincalhao')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Brincalhao')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxBrincalhao">Brincalhao</label>
                             </div>
@@ -156,11 +236,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCalmo"
                                     value="Calmo"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Calmo')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Calmo')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxCalmo">Calmo</label>
                             </div>
@@ -168,11 +246,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCarente"
                                     value="Carente"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Carente')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Carente')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxCarente">Carente</label>
                             </div>
@@ -180,11 +256,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxDocil"
                                     value="Docil"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Docil')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Docil')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxDocil">Docil</label>
                             </div>
@@ -192,11 +266,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxIndependente"
                                     value="Independente"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Independente')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Independente')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxIndependente">Independente</label>
                             </div>
@@ -204,11 +276,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxSociavel"
                                     value="Sociavel"
-                                    name="temperamentos[]"
-                                    checked={formData.temperamentos?.includes('Sociavel')}
-                                    onChange={handleChange}
+                                    checked={temperamentos.includes('Sociavel')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'temperamentos')}
                                 />
                                 <label class="form-check-label" for="boxSociavel">Sociavel</label>
                             </div>
@@ -221,11 +291,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxApartamento"
                                     value="Apartamento"
-                                    name="vive_bem_em[]"
-                                    checked={formData.vive_bem_em?.includes('Apartamento')}
-                                    onChange={handleChange}
+                                    checked={vive_bem_em.includes('Apartamento')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'vive_bem_em')}
                                 />
                                 <label class="form-check-label" for="boxApartamento">Apartamento</label>
                             </div>
@@ -233,11 +301,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxApartamentoTelado"
-                                    value="ApartamentoTelado"
-                                    name="vive_bem_em[]"
-                                    checked={formData.vive_bem_em?.includes('ApartamentoTelado')}
-                                    onChange={handleChange}
+                                    value="Apartamento Telado"
+                                    checked={vive_bem_em.includes('Apartamento Telado')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'vive_bem_em')}
                                 />
                                 <label class="form-check-label" for="boxApartamentoTelado">Apartamento telado</label>
                             </div>
@@ -245,11 +311,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCasa"
-                                    value="CasaComQuintalFechado"
-                                    name="vive_bem_em[]"
-                                    checked={formData.vive_bem_em?.includes('CasaComQuintalFechado')}
-                                    onChange={handleChange}
+                                    value="Casa Com Quintal Fechado"
+                                    checked={vive_bem_em.includes('Casa Com Quintal Fechado')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'vive_bem_em')}
                                 />
                                 <label class="form-check-label" for="boxCasa">Casa com quintal fechado</label>
                             </div>
@@ -260,11 +324,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCachorros"
                                     value="Cachorros"
-                                    name="sociavel_com[]"
-                                    checked={formData.sociavel_com?.includes('Cachorros')}
-                                    onChange={handleChange}
+                                    checked={sociavel_com.includes('Cachorros')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'sociavel_com')}
                                 />
                                 <label class="form-check-label" for="boxCachorros">Cachorros</label>
                             </div>
@@ -272,11 +334,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxGatos"
                                     value="Gatos"
-                                    name="sociavel_com[]"
-                                    checked={formData.sociavel_com?.includes('Gatos')}
-                                    onChange={handleChange}
+                                    checked={sociavel_com.includes('Gatos')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'sociavel_com')}
                                 />
                                 <label class="form-check-label" for="boxGatos">Gatos</label>
                             </div>
@@ -284,11 +344,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxCriancas"
                                     value="Criancas"
-                                    name="sociavel_com[]"
-                                    checked={formData.sociavel_com?.includes('Criancas')}
-                                    onChange={handleChange}
+                                    checked={sociavel_com.includes('Criancas')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'sociavel_com')}
                                 />
                                 <label class="form-check-label" for="boxCriancas">Crianças</label>
                             </div>
@@ -296,11 +354,9 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
-                                    id="boxPessoasDesconhecidas"
-                                    value="PessoasDesconhecidas"
-                                    name="sociavel_com[]"
-                                    checked={formData.sociavel_com?.includes('PessoasDesconhecidas')}
-                                    onChange={handleChange}
+                                    value="Pessoas Desconhecidas"
+                                    checked={sociavel_com.includes('Pessoas Desconhecidas')}
+                                    onChange={(e) => handleChangeCheckBox(e, 'sociavel_com')}
                                 />
                                 <label class="form-check-label" for="boxPessoasDesconhecidas">Pessoas desconhecidas</label>
                             </div>
@@ -313,16 +369,14 @@ function PetForm({handleChange,handleSubmit,initialFormState}){
                         <Form.Control
                             type="file"
                             multiple
-                            value={formData.images}
-                            onChange={handleChange}
+                            onChange={handleFileChange}
                         />
                     </Form.Group>
                     <FormGroup controlId="formBasicDescricao">
                         <Form.Label>Descricao</Form.Label>
                         <FormControl
                             as="textarea"
-                            value={formData.descricao} 
-                            onChange={handleChange} 
+                            onChange={setDescricao} 
                             placeholder={initialFormState.descricao ? initialFormState.descricao : 'Informe uma descriçao/historico do pet'}
                             rows={4}
                         />                   
