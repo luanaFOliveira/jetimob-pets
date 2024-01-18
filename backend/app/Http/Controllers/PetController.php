@@ -15,7 +15,7 @@ class PetController extends Controller
 {
     public function index()
     {
-        $pets = Pet::with('images', 'cuidadosVeterinarios', 'temperamentos', 'viveBemEm', 'sociavelCom')->get();
+        $pets = Pet::with('images', 'cuidadosVeterinarios', 'temperamentos', 'viveBemEm', 'sociavelCom')->orderBy('id')->paginate(10);
         return response()->json($pets);
     }
 

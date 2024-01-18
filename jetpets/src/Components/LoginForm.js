@@ -3,11 +3,11 @@ import { Form, Button, Container, FormGroup, FormControl, Dropdown,DropdownButto
 import '../Styles/User/UserForm.css';
 import SubmitButton from './SubmitButton';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-function UserForm({initialFormState}){
+function LoginForm(){
 
-    const [formData, setFormData] = React.useState(initialFormState);
-    
+    const [formData, setFormData] = React.useState({});
 
     const navigate = useNavigate();
 
@@ -16,37 +16,39 @@ function UserForm({initialFormState}){
         setFormData({ ...formData, [name]: value })
     }
 
-    const handleSubmit = async (event) => {
 
+    const handleSubmit = async (event) => {
         event.preventDefault();
-       
-        await fetch(`http://127.0.0.1:8000/api/register`, {
-        method:'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-        });
-        setFormData(initialFormState);
-        navigate('/');
-        
+
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/api/login', formData, {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            });  
+            const token = response.data.token;
+            console.log(token);
+
+            if (response.status === 200) {
+                const token = response.data.token;
+                localStorage.setItem('token', token);
+              } else {
+                throw new Error('API request failed');
+              }
+            navigate('/');
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
     }
 
     
     return(<>
         <Container>
+            <h1 className='title-text'>Bem vinde ao PetLar</h1>
+
             <Form onSubmit={(e) => handleSubmit(e, formData)}>
-                <FormGroup controlId="formBasicNome">
-                    <Form.Label style={{ color: 'white' }}>Nome</Form.Label>
-                    <Form.Control
-                        style={{ borderColor: 'black'}}
-                        type="text"
-                        name="name"
-                        onChange={handleChange}
-                        placeholder='Informe o seu nome'
-                    />
-                </FormGroup>
                 <FormGroup controlId="formBasicEmail">
                     <Form.Label style={{ color: 'white' }}>Email</Form.Label>
                     <Form.Control
@@ -67,8 +69,7 @@ function UserForm({initialFormState}){
                         placeholder='Informe a sua senha'
                     />
                 </FormGroup>
-                
-                <SubmitButton texto="Enviar" path='/'/>
+                <SubmitButton texto="Entrar" path='/'/>
             </Form>
         </Container>
     
@@ -76,4 +77,4 @@ function UserForm({initialFormState}){
 
 }
 
-export default UserForm;
+export default LoginForm;

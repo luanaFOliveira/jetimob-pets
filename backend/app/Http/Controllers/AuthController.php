@@ -1,58 +1,64 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\LogInRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Session\Middleware\StartSession;
 
 class AuthController extends Controller{
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ]);
-    
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
-    
-        $this->guard()->login($user);
-    
-        return redirect()->intended('home');
+        return response()->json($user, 201);
     }
     
-    public function login(Request $request)
+    public function login(LogInRequest $request)
     {
-        $this->validate($request, [
-            'email' => 'required|string|email|max:255',
-            'password' => 'required|string',
-        ]);
-    
-        $credentials = $request->only('email', 'password');
-    
-        if ($this->guard()->attempt($credentials)) {
-            return redirect()->intended('home');
+        if (\Auth::attempt($request->validated())) {
+            $request->session()->regenerate();
+            $token = Auth::user()->createToken('auth_token')->plainTextToken;
+            dd($token);
+            return response()->json([
+                'user' => Auth::user(),
+                'token' => $token,
+            ]);
         }
-    
-        return back()->withErrors([
-            'email' => 'As credenciais fornecidas não são válidas.',
-        ]);
+
+        return response()->json([
+            'message' => 'Invalid credentials'
+        ], 401);
     }
     
     public function logout()
     {
-        $this->guard()->logout();
-    
-        return redirect('/');
+        if (!\Auth::check()) {
+            return response()->noContent();
+        }
+
+        \Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return response()->noContent();
     }
     
     public function me()
     {
-        return response()->json($this->guard()->user());
+        if (!\Auth::check()) {
+            return response()->json([
+                'message' => 'Unauthenticated'
+            ], 401);
+        }
+
+        return response()->json(\Auth::user());
     }
 
 }

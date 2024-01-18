@@ -1,9 +1,23 @@
 
+.card-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 1rem;
+}
+
 .icon {
     color: #000000; 
     font-size: 25px; 
 }
+.card-info {
+    border: 1px solid #e0e0e0;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 
+/*
 .card-info {
     width: 100%; 
     height: auto;
@@ -14,7 +28,7 @@
     padding: 1rem;
     margin-bottom: 1rem;
 }
-  
+  */
 p {
     font-size: 14px;
     color: #555;

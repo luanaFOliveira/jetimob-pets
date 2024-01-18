@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import NavBar from '../../Components/NavBar';
 import PetForm from '../../Components/PetForm';
-import { useNavigate } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function EditPet() {
 
@@ -10,8 +11,10 @@ function EditPet() {
     const id = params.id;
 
     const [pet_temp,setPetTemp] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const getPetTemp = async () =>{
+        setLoading(true);
 
         await fetch(`http://127.0.0.1:8000/api/pets/${id}`, {
             method: 'GET',
@@ -24,8 +27,9 @@ function EditPet() {
             .then(response => response.json())
             .then(pet_temp => setPetTemp(pet_temp))
             .catch(error => {
-            console.error(error);
-            });
+                console.error(error);
+            })
+            .finally(() => setLoading(false));
     }
     getPetTemp();
 
@@ -44,6 +48,13 @@ function EditPet() {
 
     return(<>
         <NavBar />
+        <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
+        {loading && <CircularProgress />}
+        </Box>
         <div className='container-new-pet'>
             <h1>Editar Pet</h1>
             <PetForm initialFormState={initialFormState} metodo="PUT"/>

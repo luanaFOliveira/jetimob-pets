@@ -38,6 +38,6 @@ Route::put('/pets/{id}', [PetController::class, 'update']);
 Route::delete('/pets/{id}', [PetController::class, 'destroy']);
 
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', 'AuthController@login');
-Route::post('/logout', 'AuthController@logout');
-Route::get('/me', 'AuthController@me');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::get('/me', [AuthController::class, 'me']);

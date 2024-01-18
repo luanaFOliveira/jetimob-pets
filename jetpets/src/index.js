@@ -11,12 +11,15 @@ import PetList from './Views/Pet/ListPets';
 import NewPet from './Views/Pet/NewPet';
 import EditPet from './Views/Pet/EditPet';
 import NewUser from './Views/User/NewUser';
-import EditUser from './Views/User/EditUser';
 
 const router = createBrowserRouter([
   {
       path:"/",
       element:<PetList/>,
+  },
+  {
+    path:"/home",
+    element:<Home/>,
   },
   {
     path:"/pets",
@@ -38,10 +41,7 @@ const router = createBrowserRouter([
     path:"/new_user",
     element:<NewUser/>,
   },
-  {
-    path:"/edit_user/:id",
-    element:<EditUser/>,
-  },
+  
   
  
 ]);

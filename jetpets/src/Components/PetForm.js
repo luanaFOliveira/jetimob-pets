@@ -5,7 +5,9 @@ import '../Styles/Pet/PetForm.css';
 import { useNavigate } from 'react-router-dom';
 
 function PetForm({initialFormState,metodo}){
+    const navigate = useNavigate();
 
+    const token = localStorage.getItem('token');
     
     const [nome, setNome] = useState('');
     const [descricao, setDescricao] = useState('');
@@ -33,7 +35,6 @@ function PetForm({initialFormState,metodo}){
         images,
     };
     
-    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,6 +45,7 @@ function PetForm({initialFormState,metodo}){
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(formData),
           });

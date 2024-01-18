@@ -6,7 +6,7 @@ import { faPaw,faHourglass,faMarsAndVenus,faBone,faStethoscope,faHouse,faDog,faS
 function InfoItem({pet}) {
 //ver sobre colocar o display grid
     return(<>
-      <div class="card-deck">
+      <div class="card-grid-container">
         <div class="card-info" >
           <FontAwesomeIcon icon={faPaw} size="3x" color='white' />
           <h7 class="card-title">Especie</h7>
@@ -21,8 +21,6 @@ function InfoItem({pet}) {
             <h5 class="card-text">{pet.idade}</h5>
           </div>
         </div>
-      </div>
-      <div class="card-deck">
         <div class="card-info" >
           <FontAwesomeIcon icon={faMarsAndVenus} size="3x" color='white' />
           <h7 class="card-title">Sexo</h7>
@@ -37,8 +35,6 @@ function InfoItem({pet}) {
             <h5 class="card-text">{pet.porte}</h5>
           </div>
         </div>
-      </div>
-      <div class="card-deck">
         <div class="card-info" >
           <FontAwesomeIcon icon={faStethoscope} size="3x" color='white' />
           <h7 class="card-title">Cuidados Veterinarios</h7>
@@ -57,8 +53,6 @@ function InfoItem({pet}) {
             </h5>
           </div>
         </div>
-      </div>
-      <div class="card-deck">
         <div class="card-info" >
           <FontAwesomeIcon icon={faHouse} size="3x" color='white' />
           <h7 class="card-title">Vive bem em</h7>
@@ -78,7 +72,6 @@ function InfoItem({pet}) {
           </div>
         </div>
       </div>
-      
     </>);
 
 }

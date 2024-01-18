@@ -2,11 +2,15 @@ import React from 'react';
 import '../Styles/Navbar.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
-
+import { faPaw,faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 
 function NavBar() {
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg custom-navbar">
       <div className="container">
@@ -18,6 +22,7 @@ function NavBar() {
           <div className="navbar-nav">
             <Link to={`/pets`} className="nav-item nav-link">Pets</Link>
             <Link to={`/new_pet`} className="nav-item nav-link">Novo Pet</Link>
+            <Link to={`/home`} className="nav-item nav-link ml-auto" onClick={handleLogout}><FontAwesomeIcon icon={faRightFromBracket} style={{fontSize:'24px'}} /></Link>
           </div>
         </div>
       </div>

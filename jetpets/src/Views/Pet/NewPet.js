@@ -1,10 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Navigate } from 'react-router-dom';
 import NavBar from '../../Components/NavBar';
 import '../../Styles/Pet/NewPet.css';
 import PetForm from '../../Components/PetForm';
+import { useNavigate } from 'react-router-dom';
 
 function NewPet() {
+
+    const token = localStorage.getItem('token');
+    const navigate = useNavigate();
+    console.log(token);
+
+    useEffect(() => {
+        if (token === null || token === undefined) {
+          navigate('/home');
+        }
+    }, []);
+    
 
     const initialFormState = {
         nome: '',

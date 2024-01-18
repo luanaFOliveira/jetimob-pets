@@ -79,14 +79,48 @@ function PetInfo() {
       <div>
         <NavBar />
         <div className='container-info-pets'>
-          <h1>{pet.nome}</h1>
+          <div className='col-6'>
+            <h1 className='pet-name'>{pet.nome}</h1>
+            <div className='carrousel-images'>
+              <CarousselImages images={pet.images} />
+            </div>
+            <div className='footer-pet-page'>
+              <SubmitButton texto="Editar" path={`/edit_pet/${id}`} />
+              <SubmitButton texto="Excluir" path={`/`} onClick={() => onDelete(id)} />
+            </div> 
+          </div>
+          <div className='col-6'>
+            <div className='container-cards-info'>
+              <InfoItem pet={pet} />            
+            </div>
+            <div className='descricao-container'>
+              <div class="card-info">
+                <h7 class="card-title">Descricao</h7>
+                <div class="card-body">
+                  <h5 class="card-text">{pet.descricao}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </>
+  );
+}
+/*
+
+<div>
+        <NavBar />
+        <div className='container-info-pets'>
+          <h1 className='pet-name'>{pet.nome}</h1>
           <div className='carrousel-images'>
             <CarousselImages images={pet.images} />
           </div>
           <div className='container-cards-info'>
             <InfoItem pet={pet} />            
           </div>
-          <div>
+          <div className='descricao-container'>
             <div class="card-info">
               <h7 class="card-title">Descricao</h7>
               <div class="card-body">
@@ -98,55 +132,6 @@ function PetInfo() {
             <SubmitButton texto="Editar" path={`/edit_pet/${id}`} />
             <SubmitButton texto="Excluir" path={`/`} onClick={() => onDelete(id)} />
           </div> 
-        </div>
-      </div>
-    </>
-  );
-}
-
-/*
-<InfoItem campo1="Cuidados Veterinarios" valor1={pet.cuidados_veterinarios} campo2="Temperamento" valor2={pet.temperamento} />
-            <InfoItem campo1="Vive bem em" valor1={pet.vive_bem_em} campo2="Sociavel com" valor2={pet.sociavel_com} />
-            //            <Button variant="dark" className="custom-button"><Link to={`/`} onClick={() => onDelete(id)} >Deletar</Link></Button>
-
-<div className='pet-info-circles'>
-              <InfoItem texto={pet.especie} />
-              <InfoItem texto={pet.sexo} />
-              <InfoItem texto={pet.porte} />
-              <InfoItem texto={pet.idade} />
-              <InfoItem texto={pet.cuidados_veterinarios} />
-              <InfoItem texto={pet.temperamento} />
-              <InfoItem texto={pet.vive_bem_em} />
-              <InfoItem texto={pet.sociavel_com} />
-          </div>
-
-*/
-
-/*
-<div>
-        <NavBar />
-        <div className='container-info-pets'>
-            <div className='pet-info-text'>
-                <h1>Sou o/a {pet.nome}</h1>
-                <h4>Especie: {pet.especie}</h4>
-                <h4>Sexo: {pet.sexo}</h4>
-                <h4>Idade: {pet.idade}</h4>
-                <h4>Porte: {pet.porte}</h4>
-                <h4>Cuidados Veterinarios: {pet.cuidados_veterinarios}</h4>
-                <h4>Temperamento: {pet.temperamento}</h4>
-                <h4>Vive bem em: {pet.vive_bem_em}</h4>
-                <h4>Sociavel com: {pet.sociavel_com}</h4>
-                <h4>Descricao: {pet.descricao}</h4>
-            </div>
-            <div className='carrousel-images'>
-                <img src="https://via.placeholder.com/300x300"  alt="Card Image"  />    
-            </div>
-            <div className="d-flex align-items-center">
-                <div className="ml-auto">
-                    <Link to={`/editPet/${id}`} ><button className='btn btn-primary'>Editar</button></Link>
-                    <Link to={`/`} onClick={() => onDelete(id)}><button className='btn btn-primary'>Excluir</button></Link>
-                </div>
-            </div>
         </div>
       </div>
 */

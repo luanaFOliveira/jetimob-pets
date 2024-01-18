@@ -1,4 +1,14 @@
 
 .container-pet-list{
-    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.pagination-container{
+    justify-content: center;
+    background-color: #fff;
+    width: 20%;
+    border-radius: 20px;
 }
