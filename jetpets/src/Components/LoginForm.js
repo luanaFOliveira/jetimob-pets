@@ -4,6 +4,7 @@ import '../Styles/User/UserForm.css';
 import SubmitButton from './SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 function LoginForm(){
 
@@ -19,31 +20,30 @@ function LoginForm(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        console.log(formData);
         try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             const response = await axios.post('http://127.0.0.1:8000/api/login', formData, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'multipart/form-data',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                withCredentials: true,
             });  
-            const token = response.data.token;
-            console.log(token);
-
-            if (response.status === 200) {
-                const token = response.data.token;
-                localStorage.setItem('token', token);
-              } else {
-                throw new Error('API request failed');
-              }
+            const cookies = response.headers['set-cookie'];
+            if (cookies) {
+                cookies.forEach((cookie) => {
+                    Cookies.set(cookie.split(';')[0], cookie);
+                });
+            }
             navigate('/');
         } catch (error) {
             console.error('Erro na requisição:', error);
         }
     }
 
-    
+    //<SubmitButton texto="Entrar" path=''/>
     return(<>
         <Container>
             <h1 className='title-text'>Bem vinde ao PetLar</h1>
@@ -69,7 +69,7 @@ function LoginForm(){
                         placeholder='Informe a sua senha'
                     />
                 </FormGroup>
-                <SubmitButton texto="Entrar" path='/'/>
+                <button type="submit" className="btn btn-primary">Submit</button>
             </Form>
         </Container>
     

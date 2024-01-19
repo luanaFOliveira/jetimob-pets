@@ -6,7 +6,7 @@ import PetForm from '../../Components/PetForm';
 import { useNavigate } from 'react-router-dom';
 
 function NewPet() {
-
+/*
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
     console.log(token);
@@ -16,7 +16,7 @@ function NewPet() {
           navigate('/home');
         }
     }, []);
-    
+  */  
 
     const initialFormState = {
         nome: '',

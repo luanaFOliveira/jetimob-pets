@@ -1,5 +1,6 @@
 import  { Route,Routes } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Cookies from 'react-cookie';
 import Home from './Home';
 import PetInfo from './Views/Pet/PetInfo';
 import PetList from './Views/Pet/ListPets';
