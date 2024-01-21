@@ -2,26 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CuidadoVeterinario;
+use App\Models\AgeRange;
+use App\Models\Sex;
+use App\Models\Size;
+use App\Models\Specie;
+use App\Models\VeterinaryCare;
 use App\Models\Pet;
 
 use App\Models\Image;
-use App\Models\SociavelCom;
-use App\Models\Temperamento;
-use App\Models\ViveBemEm;
+use App\Models\SociableWith;
+use App\Models\Temper;
+use App\Models\LiveWellIn;
 use Illuminate\Http\Request;
 
 class PetController extends Controller
 {
     public function index()
     {
-        $pets = Pet::with('images', 'cuidadosVeterinarios', 'temperamentos', 'viveBemEm', 'sociavelCom')->orderBy('id')->paginate(10);
+        $pets = Pet::with('images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith')->orderBy('pet_id')->paginate(10);
+        //$pets = Pet::with('images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith')->get();
         return response()->json($pets);
     }
 
     public function store(Request $request)
     {
-        $pet = Pet::create($request->all());
+
+        $specie = Specie::firstOrCreate(['name' => $request->input('specie')]);
+        $sex = Sex::firstOrCreate(['name' => $request->input('sex')]);
+        $size = Size::firstOrCreate(['name' => $request->input('size')]);
+        $ageRange = AgeRange::firstOrCreate(['name' => $request->input('age_range')]);
+
+        $pet = Pet::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'specie_id' => $specie->id, 
+            'sex_id' => $sex->id, 
+            'size_id' => $size->id, 
+            'age_range_id' => $ageRange->id, 
+        ]);
 
         $files = $request->file('images');
 
@@ -43,55 +61,55 @@ class PetController extends Controller
             }
         }
 
-        $cuidadosVeterinarios = $request->input('cuidados_veterinarios');
 
-        if (is_array($cuidadosVeterinarios) && count($cuidadosVeterinarios) > 0) {
-            foreach ($cuidadosVeterinarios as $cuidadoVeterinarioId) {
-                $cuidadoVeterinario = CuidadoVeterinario::find($cuidadoVeterinarioId);
+        $veterinaryCare = $request->input('veterinary_care');
 
-                $pet->cuidadosVeterinarios()->attach($cuidadoVeterinario);
+        if (is_array($veterinaryCare) && count($veterinaryCare) > 0) {
+            foreach ($veterinaryCare as $veterinaryCareId) {
+                $veterinaryCare = VeterinaryCare::find($veterinaryCareId);
+
+                $pet->veterinaryCare()->attach($veterinaryCare, ['pet_id' => $pet->id]);
             }
         }
 
-        $temperamentos = $request->input('temperamentos');
+        $tempers = $request->input('tempers');
 
-        if (is_array($temperamentos) && count($temperamentos) > 0) {
-            foreach ($temperamentos as $temperamentoId) {
-                $temperamento = Temperamento::find($temperamentoId);
+        if (is_array($tempers) && count($tempers) > 0) {
+            foreach ($tempers as $temperId) {
+                $temper = Temper::find($temperId);
 
-                $pet->temperamentos()->attach($temperamento);
+                $pet->tempers()->attach($temper, ['pet_id' => $pet->id]);
             }
         }
 
-        $viveBemEm = $request->input('vive_bem_em');
+        $liveWellIn = $request->input('live_well_in');
 
-        if (is_array($viveBemEm) && count($viveBemEm) > 0) {
-            foreach ($viveBemEm as $viveBemEmId) {
-                $viveBemEm = ViveBemEm::find($viveBemEmId);
+        if (is_array($liveWellIn) && count($liveWellIn) > 0) {
+            foreach ($liveWellIn as $liveWellInId) {
+                $liveWellIn = LiveWellIn::find($liveWellInId);
 
-                $pet->viveBemEm()->attach($viveBemEm);
+                $pet->liveWellIn()->attach($liveWellIn, ['pet_id' => $pet->id]);
             }
         }
 
-        $sociavelCom = $request->input('sociavel_com');
+        $sociableWith = $request->input('sociable_with');
 
-        if (is_array($sociavelCom) && count($sociavelCom) > 0) {
-            foreach ($sociavelCom as $sociavelComId) {
-                $sociavelCom = SociavelCom::find($sociavelComId);
+        if (is_array($sociableWith) && count($sociableWith) > 0) {
+            foreach ($sociableWith as $sociableWithId) {
+                $sociableWith = SociableWith::find($sociableWithId);
 
-                $pet->sociavelCom()->attach($sociavelCom);
+                $pet->sociableWith()->attach($sociableWith, ['pet_id' => $pet->id]);
             }
         }
 
-        return $pet->load('images', 'cuidadosVeterinarios', 'temperamentos', 'viveBemEm', 'sociavelCom');
+        return $pet->load('images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith');
     }
 
     public function show(int $id)
     {
         $pet = Pet::find($id);
 
-        $pet->load( 'images', 'cuidadosVeterinarios', 'temperamentos', 'viveBemEm', 'sociavelCom');
-
+        $pet->load( 'images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith');
 
         if ($pet) {
             return response()->json($pet);
@@ -104,30 +122,42 @@ class PetController extends Controller
     {
         $pet = Pet::find($id);
 
-        $pet->update($request->all());
+        $specie = Specie::firstOrCreate(['name' => $request->input('specie')]);
+        $sex = Sex::firstOrCreate(['name' => $request->input('sex')]);
+        $size = Size::firstOrCreate(['name' => $request->input('size')]);
+        $ageRange = AgeRange::firstOrCreate(['name' => $request->input('age_range')]);
 
-        $cuidadosVeterinarios = $request->input('cuidados_veterinarios');
+        $pet->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'specie_id' => $specie->id, 
+            'sex_id' => $sex->id, 
+            'size_id' => $size->id, 
+            'age_range_id' => $ageRange->id, 
+        ]);
 
-        if (is_array($cuidadosVeterinarios) && count($cuidadosVeterinarios) > 0) {
-            $pet->cuidadosVeterinarios()->sync($cuidadosVeterinarios);
+        $veterinaryCare = $request->input('veterinary_care');
+
+        if (is_array($veterinaryCare) && count($veterinaryCare) > 0) {
+            $pet->veterinaryCare()->sync($veterinaryCare);
         }
 
-        $temperamentos = $request->input('temperamentos');
+        $tempers = $request->input('tempers');
 
-        if (is_array($temperamentos) && count($temperamentos) > 0) {
-            $pet->temperamentos()->sync($temperamentos);
+        if (is_array($tempers) && count($tempers) > 0) {
+            $pet->tempers()->sync($tempers);
         }
 
-        $viveBemEm = $request->input('vive_bem_em');
+        $liveWellIn = $request->input('live_well_in');
 
-        if (is_array($viveBemEm) && count($viveBemEm) > 0) {
-            $pet->viveBemEms()->sync($viveBemEm);
+        if (is_array($liveWellIn) && count($liveWellIn) > 0) {
+            $pet->liveWellIn()->sync($liveWellIn);
         }
 
-        $sociavelCom = $request->input('sociavel_com');
+        $sociableWith = $request->input('sociable_with');
 
-        if (is_array($sociavelCom) && count($sociavelCom) > 0) {
-            $pet->sociavelCom()->sync($sociavelCom);
+        if (is_array($sociableWith) && count($sociableWith) > 0) {
+            $pet->sociableWith()->sync($sociableWith);
         }
 
         return response()->json($pet);
@@ -138,10 +168,15 @@ class PetController extends Controller
     {
         $pet = Pet::find($id);
         $pet->images()->detach();
-        $pet->cuidadosVeterinarios()->detach();
-        $pet->temperamentos()->detach();
-        $pet->viveBemEm()->detach();
-        $pet->sociavelCom()->detach();
+        $pet->specie()->dissociate();
+        $pet->sex()->dissociate();
+        $pet->size()->dissociate();
+        $pet->ageRange()->dissociate();
+        $pet->veterinary_care()->detach();
+        $pet->tempers()->detach();
+        $pet->liveWellIn()->detach();
+        $pet->sociablewith()->detach();
+        
         $pet->delete();
 
         return response()->noContent();

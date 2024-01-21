@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Pet;
-use App\Models\SociavelCom;
+use App\Models\Sociablewith;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SociavelComFactory extends Factory
+class SociablewithFactory extends Factory
 {
-    protected $model = SociavelCom::class;
+    protected $model = Sociablewith::class;
 
     public function definition()
     {

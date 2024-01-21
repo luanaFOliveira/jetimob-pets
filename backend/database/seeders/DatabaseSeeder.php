@@ -13,6 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call('TempersSeeder');
+        $this->call('AgeRangeSeeder');
+        $this->call('LiveWellInSeeder');
+        $this->call('SexSeeder');
+        $this->call('SizeSeeder');
+        $this->call('SociableWithSeeder');
+        $this->call('SpecieSeeder');
+        $this->call('VeterinaryCareSeeder');
+
     }
 }

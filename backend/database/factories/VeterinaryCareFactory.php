@@ -4,11 +4,11 @@ namespace Database\Factories;
 
 use App\Models\Pet;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\CuidadoVeterinario;
+use App\Models\VeterinaryCare;
 
-class CuidadoVeterinarioFactory extends Factory
+class VeterinaryCareFactory extends Factory
 {
-    protected $model = CuidadoVeterinario::class;
+    protected $model = VeterinaryCare::class;
 
     public function definition()
     {

@@ -15,7 +15,7 @@ class CreateImageTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pet_id')->constrained('pets')->onDelete('CASCADE');
+            $table->foreignId('pet_id')->constrained('pets','pet_id')->onDelete('CASCADE');
             $table->text('name');
             $table->string('file_name');
             $table->string('extension');

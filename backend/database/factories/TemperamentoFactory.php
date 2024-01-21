@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Pet;
-use App\Models\Temperamento;
+use App\Models\Temper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TemperamentoFactory extends Factory
+class TemperFactory extends Factory
 {
-    protected $model = Temperamento::class;
+    protected $model = Temper::class;
 
     public function definition()
     {
