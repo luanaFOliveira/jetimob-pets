@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PetCardResource;
 use App\Models\AgeRange;
 use App\Models\Sex;
 use App\Models\Size;
@@ -14,15 +15,24 @@ use App\Models\SociableWith;
 use App\Models\Temper;
 use App\Models\LiveWellIn;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PetController extends Controller
 {
     public function index()
     {
-        $pets = Pet::with('images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith')->orderBy('pet_id')->paginate(10);
-        //$pets = Pet::with('images','specie', 'sex', 'size', 'ageRange', 'veterinaryCare', 'tempers', 'liveWellIn', 'sociableWith')->get();
+        $pets = Pet::with('images')->orderBy('pet_id')->paginate(8);
         return response()->json($pets);
     }
+
+    public function showCard(): ResourceCollection
+    {
+        return PetCardResource::collection(
+            Pet::with('images')->orderBy('pet_id')->paginate(8)
+        );
+    }
+
+    //funcao pra madnar soh as info pro card, images e nome
 
     public function store(Request $request)
     {

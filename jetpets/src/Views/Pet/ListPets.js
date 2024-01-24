@@ -5,6 +5,7 @@ import NavBar from '../../Components/NavBar';
 import Pagination from '@mui/material/Pagination';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import FilterSideBar from '../../Components/FilterSideBar';
 
 function ListPets() {
   const [pets, setPets] = useState([]);
@@ -38,6 +39,13 @@ function ListPets() {
     getPets(page);
   };
 
+  const nomes = [
+    { label: 'Tobias' },
+    { label: 'Boris' },
+  ];
+
+  const filterBarWidth = 250; 
+  console.log(pets);
   return (<>
     <NavBar/>
     <Box sx={{
@@ -47,10 +55,11 @@ function ListPets() {
       }}>
       {loading && <CircularProgress />}
     </Box>
+    <FilterSideBar nomes={nomes} width={filterBarWidth}/>
     <div className="row bg-transparent container-pet-list">
       {Array.isArray(pets) && pets.length > 0 ? (
           pets.map((pet, index) => (
-            <PetCard key={index} nome={pet.nome} id={pet.id} image={pet.images[0]} />
+            <PetCard key={index} nome={pet.name} id={pet.pet_id} image={pet.images[0]} />
           ))
         ) : (
           <p>Nenhum animal encontrado.</p>

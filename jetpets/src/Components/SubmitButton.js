@@ -4,10 +4,10 @@ import '../Styles/Pet/SubmitButton.css';
 import { Link } from 'react-router-dom';
 
 
-function SubmitButton({texto,path,onClick}){
+function SubmitButton({text,path,onClick}){
     return(<>
         <div className='container-button'>
-            <Button className='submit-button' type="submit"><Link className='link-button' to={path} onClick={onClick} >{texto}</Link></Button>
+            <Button className='submit-button' type="submit"><Link className='link-button' to={path} onClick={onClick} >{text}</Link></Button>
         </div>
     </>);
 

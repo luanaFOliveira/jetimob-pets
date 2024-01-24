@@ -80,7 +80,7 @@ function PetInfo() {
         <NavBar />
         <div className='container-info-pets'>
           <div className='col-6'>
-            <h1 className='pet-name'>{pet.nome}</h1>
+            <h1 className='pet-name'>{pet.name}</h1>
             <div className='carrousel-images'>
               <CarousselImages images={pet.images} />
             </div>
@@ -97,10 +97,11 @@ function PetInfo() {
               <div class="card-info">
                 <h7 class="card-title">Descricao</h7>
                 <div class="card-body">
-                  <h5 class="card-text">{pet.descricao}</h5>
+                  <h5 class="card-text">{pet.description}</h5>
                 </div>
               </div>
             </div>
+           
           </div>
           
         </div>
@@ -110,6 +111,10 @@ function PetInfo() {
 }
 /*
 
+ <div className='footer-pet-page'>
+              <button type="submit" className="btn btn-primary"><Link className='link-button' to={`/edit_pet/${id}`} >Editar</Link></button>
+              <button type="submit" className="btn btn-primary" onClick={() => onDelete(id)}><Link className='link-button' to={`/pets`} >Excluir</Link></button>
+            </div> 
 <div>
         <NavBar />
         <div className='container-info-pets'>

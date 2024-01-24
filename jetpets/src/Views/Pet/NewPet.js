@@ -19,16 +19,16 @@ function NewPet() {
   */  
 
     const initialFormState = {
-        nome: '',
-        especie: '',
-        sexo: '',
-        porte: '',
-        idade: '',
-        cuidados_veterinarios: [],
-        temperamentos: [],
-        vive_bem_em: [],
-        sociavel_com: [],
-        descricao: '',
+        name: '',
+        specie: '',
+        sex: '',
+        size: '',
+        age_range: '',
+        veterinary_care: [],
+        tempers: [],
+        live_well_in: [],
+        sociable_with: [],
+        description: '',
         images: [],
     }
 

@@ -10,7 +10,7 @@ function CarousselImages({images}){
             <Carousel.Item key={index}>
             <img
                 className="d-block"
-                src={`http://localhost:8000/storage/${image.file_path}`} 
+                src={`http://localhost:8000/storage/${image.file_path}`}
                 alt={`Slide ${index}`}
             />
             </Carousel.Item>

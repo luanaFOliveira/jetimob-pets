@@ -11,28 +11,28 @@ function InfoItem({pet}) {
           <FontAwesomeIcon icon={faPaw} size="3x" color='white' />
           <h7 class="card-title">Especie</h7>
           <div class="card-body">
-            <h5 class="card-text">{pet.especie}</h5>
+            <h5 class="card-text">{pet.specie.name}</h5>
           </div>
         </div>
         <div class="card-info">
           <FontAwesomeIcon icon={faHourglass} size="3x" color='white' />
           <h7 class="card-title">Idade</h7>
           <div class="card-body">
-            <h5 class="card-text">{pet.idade}</h5>
+            <h5 class="card-text">{pet.age_range.name}</h5>
           </div>
         </div>
         <div class="card-info" >
           <FontAwesomeIcon icon={faMarsAndVenus} size="3x" color='white' />
           <h7 class="card-title">Sexo</h7>
           <div class="card-body">
-            <h5 class="card-text">{pet.sexo}</h5>
+            <h5 class="card-text">{pet.sex.name}</h5>
           </div>
         </div>
         <div class="card-info">
           <FontAwesomeIcon icon={faDog} size="3x" color='white' />
           <h7 class="card-title">Porte</h7>
           <div class="card-body">
-            <h5 class="card-text">{pet.porte}</h5>
+            <h5 class="card-text">{pet.size.name}</h5>
           </div>
         </div>
         <div class="card-info" >
@@ -40,7 +40,7 @@ function InfoItem({pet}) {
           <h7 class="card-title">Cuidados Veterinarios</h7>
           <div class="card-body">
           <h5 class="card-text">
-              {pet.cuidados_veterinarios.map((cuidados_veterinarios) => cuidados_veterinarios.nome).join(', ')}
+              {pet.veterinary_care.map((veterinary_care) => veterinary_care.name).join(', ')}
             </h5>
           </div>
         </div>
@@ -49,7 +49,7 @@ function InfoItem({pet}) {
           <h7 class="card-title">Temperamentos</h7>
           <div class="card-body">
             <h5 class="card-text">
-              {pet.temperamentos.map((temperamento) => temperamento.nome).join(', ')}
+              {pet.tempers.map((temper) => temper.name).join(', ')}
             </h5>
           </div>
         </div>
@@ -58,7 +58,7 @@ function InfoItem({pet}) {
           <h7 class="card-title">Vive bem em</h7>
           <div class="card-body">
           <h5 class="card-text">
-              {pet.vive_bem_em.map((vive_bem_em) => vive_bem_em.nome).join(', ')}
+              {pet.live_well_in.map((live_well_in) => live_well_in.name).join(', ')}
             </h5>
           </div>
         </div>
@@ -67,7 +67,7 @@ function InfoItem({pet}) {
           <h7 class="card-title">Sociavel com</h7>
           <div class="card-body">
           <h5 class="card-text">
-              {pet.sociavel_com.map((sociavel_com) => sociavel_com.nome).join(', ')}
+              {pet.sociable_with.map((sociable_with) => sociable_with.name).join(', ')}
             </h5>
           </div>
         </div>

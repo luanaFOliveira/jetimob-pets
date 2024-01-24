@@ -10,7 +10,7 @@ function EditPet() {
     const params = useParams();
     const id = params.id;
 
-    const [pet_temp,setPetTemp] = useState([]);
+    const [pet_temp,setPetTemp] = useState({});
     const [loading, setLoading] = useState(true);
 
     const getPetTemp = async () =>{
@@ -24,26 +24,30 @@ function EditPet() {
             },
             mode: 'cors' 
         })
-            .then(response => response.json())
-            .then(pet_temp => setPetTemp(pet_temp))
-            .catch(error => {
-                console.error(error);
-            })
-            .finally(() => setLoading(false));
+        .then(response => response.json())
+        .then(pet_temp => setPetTemp(pet_temp))
+        .catch(error => {
+            console.error(error);
+        })
+        .finally(() => setLoading(false));
     }
-    getPetTemp();
+    useEffect(() => {
+        getPetTemp();
+        // eslint-disable-next-line
+    }, []);
 
+    console.log(pet_temp);
     const initialFormState = {
-        nome: pet_temp.nome,
-        especie: pet_temp.especie,
-        sexo: pet_temp.sexo,
-        porte: pet_temp.porte,
-        idade: pet_temp.idade,
-        cuidados_veterinarios: pet_temp.cuidados_veterinarios,
-        temperamento: pet_temp.temperamento,
-        vive_bem_em: pet_temp.vive_bem_em,
-        sociavel_com: pet_temp.sociavel_com,
-        descricao: pet_temp.descricao,
+        name: pet_temp.name,
+        specie: pet_temp.specie.name,
+        sex: pet_temp.sex.name,
+        size: pet_temp.size.name,
+        age_range: pet_temp.age_range.name,
+        veterinary_care: pet_temp.veterinary_care,
+        tempers: pet_temp.tempers,
+        live_well_in: pet_temp.live_well_in,
+        sociable_with: pet_temp.sociable_with,
+        description: pet_temp.description,
     }
 
     return(<>

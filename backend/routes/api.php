@@ -23,6 +23,7 @@ Route::get('/pets/{id}', [PetController::class, 'show']);
 Route::put('/pets/{id}', [PetController::class, 'update']);
 Route::delete('/pets/{id}', [PetController::class, 'destroy']);
 
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);

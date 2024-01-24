@@ -25,10 +25,14 @@ class AuthController extends Controller{
     {
         if (\Auth::attempt($request->validated())) {
             $request->session()->regenerate();
-            $cookie = cookie('laravel_session', $request->session()->getId(), 60, null, null, true, true);
+            //ApiToken
+            //type = bearer
+            $token = Auth::user()->createToken('auth_token')->plainTextToken;
+            
             return response()->json([
                 'user' => Auth::user(),
-            ])->withCookie($cookie);
+                'token' => $token,
+            ]);
         }
 
         return response()->json([
